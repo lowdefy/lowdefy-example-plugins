@@ -1,0 +1,6 @@
+lowdefy: 4.0.0-alpha.17
+license: MIT
+
+plugins:
+  - name: 'plugin-name'
+    version: 'file:./plugin-name'
