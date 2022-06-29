@@ -3,4 +3,4 @@ license: MIT
 
 plugins:
   - name: 'plugin-name'
-    version: 'file:./plugin-name'
+    version: 'file:./plugins/plugin-name'
