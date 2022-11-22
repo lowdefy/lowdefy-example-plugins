@@ -1,0 +1,13 @@
+{
+  "name": "lowdefy-example-plugins-repo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "packageManager": "pnpm@7.12.2",
+  "dependencies": {
+    "lowdefy": "4.0.0-alpha.36"
+  },
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}

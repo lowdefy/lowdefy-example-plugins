@@ -1,0 +1,33 @@
+lowdefy: 4.0.0-alpha.36 # Please check for latest Lowdefy version.
+license: MIT
+
+plugins:
+  - name: 'plugin-name'
+    version: 'workspace:*'
+  - name: 'plugin-times-eleven-operator'
+    version: 'workspace:*'
+
+pages:
+  - id: plugin-example
+    type: Box
+    blocks:
+      - id: number
+        type: NumberInput
+        properties:
+          title: Type a number
+      - id: result
+        type: Html
+        properties:
+          html:
+            _nunjucks:
+              template: |
+                {% if number != null %}
+                  {{ number }} times eleven is: {{ result }}
+                {% endif %}
+              on:
+                number:
+                  _state: number
+                result:
+                  _times_eleven:
+                    number:
+                      _state: number

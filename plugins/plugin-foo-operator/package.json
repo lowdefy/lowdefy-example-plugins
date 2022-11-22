@@ -1,0 +1,17 @@
+{
+  "name": "plugin-times-eleven-operator",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./operators/client": "./src/operatorsClient.js",
+    "./types": "./src/types.js"
+  },
+  "files": [
+    "src/*"
+  ],
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}

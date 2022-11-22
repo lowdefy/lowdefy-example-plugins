@@ -4,18 +4,18 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./auth/callbacks": "./auth/callbacks.js",
-    "./auth/events": "./auth/events.js",
-    "./auth/providers": "./auth/providers.js",
-    "./blocks": "./blocks.js",
-    "./connections": "./connections.js",
-    "./operators/build": "./operators/build.js",
-    "./operators/client": "./operators/client.js",
-    "./operators/server": "./operators/server.js",
-    "./types": "./types.js"
+    "./auth/callbacks": "./src/auth/callbacks.js",
+    "./auth/events": "./src/auth/events.js",
+    "./auth/providers": "./src/auth/providers.js",
+    "./blocks": "./src/blocks.js",
+    "./connections": "./src/connections.js",
+    "./operators/build": "./src/operators/build.js",
+    "./operators/client": "./src/operators/client.js",
+    "./operators/server": "./src/operators/server.js",
+    "./types": "./src/types.js"
   },
   "files": [
-    "*"
+    "src/*"
   ],
   "dependencies": {}
 }

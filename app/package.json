@@ -1,0 +1,16 @@
+{
+  "name": "lowdefy-example-plugins",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "ldf:b": "lowdefy build",
+    "ldf:d": "lowdefy dev --log-level=debug --no-open",
+    "ldf:s": "lowdefy start",
+    "ldf": "lowdefy dev --no-open",
+    "lowdefy": "lowdefy"
+  },
+  "dependencies": {
+    "lowdefy": "4.0.0-alpha.36"
+  }
+}
