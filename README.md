@@ -29,6 +29,137 @@ You can then use all of the types declared by the plugin as normal types in your
 > NOTE: You should have a `types.js` file, which exports all the types declared by the package - the declared names in this file must be the same as the named exported in your package. This is used so that the build knows which types can be used from that plugin. The type names exported in the `types.js` are the type names you can use in your Lowdefy config.
 
 
+# A project setup example
+
+If your projects uses local plugins (plugins not installed from npm), then it is useful to setup a pnpm workspace or monorepo. pnpm is the only package manager that will be supported for local plugin development with lowdefy apps in the same monorepo. This example repo can be used as a example of how the workspace should be setup.
+
+This is an example of the proposed project structure:
+```
+project
+  /app
+  |  ...[app files and folders]
+  |  lowdefy.yaml
+  |  package.json
+  /plugins
+  |  /...[all plugins]
+  |  /plugin-name
+  |    /src
+  |      type.js
+  |    package.json
+  package.json
+  pnpm-workspace.yaml
+```
+
+In the minimum setup there is 4 important files.
+1) The project root `package.json`:
+```json
+{
+  "name": "lowdefy-example-plugins-repo",
+  "version": "1.0.0",
+  "packageManager": "pnpm@7.12.2",
+  "dependencies": {
+    "lowdefy": "4.0.0-alpha.36"
+  },
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}
+```
+
+2) The project root `pnpm-workspace.yaml`
+```yaml
+packages:
+  - 'app/*'
+  - 'plugins/*'
+  - 'app/.lowdefy/*'
+  - '*'
+```
+
+3) Each plugin needs the following files:
+
+A `package.json`, only include the relevant exports:
+```json
+{
+  "name": "plugin-name",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./auth/callbacks": "./src/auth/callbacks.js",
+    "./auth/events": "./src/auth/events.js",
+    "./auth/providers": "./src/auth/providers.js",
+    "./blocks": "./src/blocks.js",
+    "./connections": "./src/connections.js",
+    "./operators/build": "./src/operators/build.js",
+    "./operators/client": "./src/operators/client.js",
+    "./operators/server": "./src/operators/server.js",
+    "./types": "./src/types.js"
+  },
+  "files": [
+    "src/*"
+  ],
+  "dependencies": {}
+}
+```
+
+A `types.js` file, defining all type names (only include the names of your custom types):
+```js
+export default {
+  actions: ['Action'],
+  auth: {
+    callbacks: ['Callback'],
+    events: ['Event'],
+    provider: ['Provider']
+  },
+  blocks: ['Block'],
+  connections: ['Connection'],
+  requests: ['Request'],
+  operators: {
+    build: ['_build_operator', '_shared_operator'],
+    client: ['_client_operator', '_shared_operator'],
+    server: ['_server_operator', '_shared_operator'],
+  },
+};
+```
+
+And the type exports files for the various custom types, for example `project/plugins/plugin-name/src/actions.js` exports the types code for all the new action types:
+
+```js
+export { default as FooAction } from './FooAction.js';
+```
+
+
+The type names in the `types.js` file and in the exports in plugin export files must match.`
+
+
+4) The lowdefy app `package.json`:
+```yaml
+{
+  "name": "lowdefy-example-plugins",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "lowdefy": "lowdefy"
+  },
+  "dependencies": {
+    "lowdefy": "4.0.0-alpha.36"
+  }
+}
+```
+
+5) And the app's `lowdefy.yaml` linking to the plugins, your project can also contain multiple Lowdefy apps:
+```yaml
+lowdefy: 4.0.0-alpha.36 # Please check for latest Lowdefy version.
+plugins:
+  - name: 'plugin-name'
+    version: 'workspace:*'
+
+pages:
+ ...
+```
+
+
+
 ## To run this example
 
 1. Install pnpm see: https://pnpm.io/installation, it is advise to update to node v16.17 or greater and running `corepack enable`.
