@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+node_modules
+LICENCE
+README.md
+.lowdefy
+.next
+.git
