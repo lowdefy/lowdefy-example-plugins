@@ -1,9 +1,10 @@
 export default {
   actions: ['Action'],
   auth: {
+    callbacks: ['Adapter'],
     callbacks: ['Callback'],
     events: ['Event'],
-    provider: ['Provider']
+    provider: ['Provider'],
   },
   blocks: ['Block'],
   connections: ['Connection'],

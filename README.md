@@ -19,6 +19,7 @@ plugins:
 In Lowdefy v4, you can have plugins for Actions, Blocks, Operators (both build, client and server), Connectors and Requests, as well as the auth plugins, Callbacks, Provider and Events. Your plugin package can export any one of these types and does not need to include all types. Consider the following simple examples.
 
 Plugins needs at least the following:
+
 - A `package.json` which declares the package and exports the plugin types.
 - A `types.js` file which exports the plugin names.
 - A file that exports all the types as named exports.
@@ -28,12 +29,12 @@ You can then use all of the types declared by the plugin as normal types in your
 
 > NOTE: You should have a `types.js` file, which exports all the types declared by the package - the declared names in this file must be the same as the named exported in your package. This is used so that the build knows which types can be used from that plugin. The type names exported in the `types.js` are the type names you can use in your Lowdefy config.
 
-
 # A project setup example
 
 If your projects uses local plugins (plugins not installed from npm), then it is useful to setup a pnpm workspace or monorepo. pnpm is the only package manager that will be supported for local plugin development with lowdefy apps in the same monorepo. This example repo can be used as a example of how the workspace should be setup.
 
 This is an example of the proposed project structure:
+
 ```
 project
   /app
@@ -51,23 +52,24 @@ project
 ```
 
 In the minimum setup there is 4 important files.
-1) The project root `package.json`:
+
+1. The project root `package.json`:
+
 ```json
 {
   "name": "lowdefy-example-plugins-repo",
   "version": "1.0.0",
   "packageManager": "pnpm@7.12.2",
   "dependencies": {
-    "lowdefy": "4.0.0-alpha.36"
+    "lowdefy": "4.0.0-rc.5"
   },
-  "scripts": {
-  },
-  "devDependencies": {
-  }
+  "scripts": {},
+  "devDependencies": {}
 }
 ```
 
-2) The project root `pnpm-workspace.yaml`
+2. The project root `pnpm-workspace.yaml`
+
 ```yaml
 packages:
   - 'app/*'
@@ -76,9 +78,10 @@ packages:
   - '*'
 ```
 
-3) Each plugin needs the following files:
+3. Each plugin needs the following files:
 
 A `package.json`, only include the relevant exports:
+
 ```json
 {
   "name": "plugin-name",
@@ -95,21 +98,20 @@ A `package.json`, only include the relevant exports:
     "./operators/server": "./src/operators/server.js",
     "./types": "./src/types.js"
   },
-  "files": [
-    "src/*"
-  ],
+  "files": ["src/*"],
   "dependencies": {}
 }
 ```
 
 A `types.js` file, defining all type names (only include the names of your custom types):
+
 ```js
 export default {
   actions: ['Action'],
   auth: {
     callbacks: ['Callback'],
     events: ['Event'],
-    provider: ['Provider']
+    provider: ['Provider'],
   },
   blocks: ['Block'],
   connections: ['Connection'],
@@ -128,37 +130,30 @@ And the type exports files for the various custom types, for example `project/pl
 export { default as FooAction } from './FooAction.js';
 ```
 
-
 The type names in the `types.js` file and in the exports in plugin export files must match.`
 
+4. The lowdefy app `package.json`:
 
-4) The lowdefy app `package.json`:
 ```yaml
 {
-  "name": "lowdefy-example-plugins",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "lowdefy": "lowdefy"
-  },
-  "dependencies": {
-    "lowdefy": "4.0.0-alpha.36"
-  }
+  'name': 'lowdefy-example-plugins',
+  'version': '1.0.0',
+  'type': 'module',
+  'scripts': { 'lowdefy': 'lowdefy' },
+  'dependencies': { 'lowdefy': '4.0.0-rc.5' },
 }
 ```
 
-5) And the app's `lowdefy.yaml` linking to the plugins, your project can also contain multiple Lowdefy apps:
+5. And the app's `lowdefy.yaml` linking to the plugins, your project can also contain multiple Lowdefy apps:
+
 ```yaml
-lowdefy: 4.0.0-alpha.36 # Please check for latest Lowdefy version.
+lowdefy: 4.0.0-rc.5 # Please check for latest Lowdefy version.
 plugins:
   - name: 'plugin-name'
     version: 'workspace:*'
 
-pages:
- ...
+pages: ...
 ```
-
-
 
 ## To run this example
 
@@ -169,6 +164,7 @@ pages:
 ## A simple client operator plugin
 
 Your plugin `package.json` needs to export the operator type:
+
 ```json
 {
   "name": "plugin-times-eleven-operator",
@@ -178,14 +174,13 @@ Your plugin `package.json` needs to export the operator type:
     "./operators/client": "./operatorsClient.js",
     "./types": "./types.js"
   },
-  "files": [
-    "*"
-  ],
+  "files": ["*"],
   "dependencies": {}
 }
 ```
 
 The `types.js` file should export the plugin name:
+
 ```js
 export default {
   operators: {
@@ -195,11 +190,13 @@ export default {
 ```
 
 The `operatorsClient.js` file:
+
 ```js
 export { default as _times_eleven } from './_times_eleven.js';
 ```
 
 And the `_times_eleven` code:
+
 ```js
 function _times_eleven({ params }) {
   return params.number * 11;
@@ -211,6 +208,7 @@ export default _times_eleven;
 ## Multiple types in one plugin
 
 All plugin exports in `package.json` file that you can apply, only include the ones used:
+
 ```json
 {
   "name": "plugin-name",
@@ -227,21 +225,20 @@ All plugin exports in `package.json` file that you can apply, only include the o
     "./operators/server": "./operatorsServer.js",
     "./types": "./types.js"
   },
-  "files": [
-    "*"
-  ],
+  "files": ["*"],
   "dependencies": {}
 }
 ```
 
 The export schema for the `types.js` file should look like, use the same type names here as in the named exports:
+
 ```js
 export default {
   actions: ['Action'],
   auth: {
     callbacks: ['Callback'],
     events: ['Event'],
-    provider: ['Provider']
+    provider: ['Provider'],
   },
   blocks: ['Block'],
   connections: ['Connection'],
@@ -255,11 +252,13 @@ export default {
 ```
 
 Export the types as named exports. So for example, you should have a `blocks.js`:
+
 ```js
 export { default as Block } from './blocks/Block/Block.js';
 ```
 
 The block file also needs to change slightly, an example block is:
+
 ```js
 import React from 'react';
 import { blockDefaultProps } from '@lowdefy/block-utils';

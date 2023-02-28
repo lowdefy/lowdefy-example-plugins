@@ -1,4 +1,4 @@
-lowdefy: 4.0.0-alpha.36 # Please check for latest Lowdefy version.
+lowdefy: 4.0.0-rc.5 # Please check for latest Lowdefy version.
 license: MIT
 
 plugins:

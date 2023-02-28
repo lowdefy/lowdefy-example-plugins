@@ -4,18 +4,25 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./auth/callbacks": "./src/auth/callbacks.js",
-    "./auth/events": "./src/auth/events.js",
-    "./auth/providers": "./src/auth/providers.js",
-    "./blocks": "./src/blocks.js",
-    "./connections": "./src/connections.js",
-    "./operators/build": "./src/operators/build.js",
-    "./operators/client": "./src/operators/client.js",
-    "./operators/server": "./src/operators/server.js",
-    "./types": "./src/types.js"
+    "./auth/callbacks": "./dist/auth/callbacks.js",
+    "./auth/events": "./dist/auth/events.js",
+    "./auth/providers": "./dist/auth/providers.js",
+    "./blocks": "./dist/blocks.js",
+    "./connections": "./dist/connections.js",
+    "./operators/build": "./dist/operators/build.js",
+    "./operators/client": "./dist/operators/client.js",
+    "./operators/server": "./dist/operators/server.js",
+    "./types": "./dist/types.js"
   },
   "files": [
-    "src/*"
+    "dist/*"
   ],
-  "dependencies": {}
+  "scripts": {
+    "build": "swc src --out-dir dist --config-file ../../.swcrc --delete-dir-on-start --copy-files",
+    "prepare": "pnpm build"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.194"
+  }
 }

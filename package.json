@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "license": "MIT",
   "packageManager": "pnpm@7.12.2",
-  "dependencies": {
-    "lowdefy": "4.0.0-alpha.36"
-  },
+  "dependencies": {},
   "scripts": {
+    "lowdefy:build": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:build",
+    "lowdefy:dev": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:dev",
+    "lowdefy:debug": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:debug",
+    "lowdefy:start": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:start",
+    "update-packages": "pnpm up -i -r --latest"
   },
   "devDependencies": {
+    "prettier": "^2.8.4"
   }
 }

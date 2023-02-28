@@ -1,11 +1,25 @@
 // See https://github.com/lowdefy/lowdefy/tree/main/packages/plugins/blocks/blocks-basic
 // for more examples
 
-
 import React from 'react';
 import { blockDefaultProps } from '@lowdefy/block-utils';
 
-const Block = ({ basePath, blockId, components, content, events, list, loading, methods, menus, pageId, properties, required, validation, value }) => (
+const Block = ({
+  basePath,
+  blockId,
+  components,
+  content,
+  events,
+  list,
+  loading,
+  methods,
+  menus,
+  pageId,
+  properties,
+  required,
+  validation,
+  value,
+}) => (
   <div
     id={blockId}
     onClick={() => methods.triggerEvent({ name: 'onClick' })}
@@ -18,11 +32,11 @@ const Block = ({ basePath, blockId, components, content, events, list, loading, 
   </div>
 );
 
-Box.defaultProps = blockDefaultProps;
-Box.meta = {
+Block.defaultProps = blockDefaultProps;
+Block.meta = {
   category: 'display', // one of 'container', 'display', 'input' or 'list'
   icons: [],
   styles: [],
 };
 
-export default Box;
+export default Block;
