@@ -3,13 +3,14 @@ FROM node:18-buster AS builder
 WORKDIR /lowdefy
 
 COPY . .
-# Configure Standalone next build
+# Configure standalone next build
 ENV LOWDEFY_BUILD_OUTPUT_STANDALONE 1
+
 # Enable pnpm using corepack
 RUN corepack enable
 
-RUN pnpx lowdefy@alpha build --config-directory ./app
-
+# TODO: Change config-directory (./app) as appropriate here
+RUN pnpx lowdefy@4 build --config-directory ./app --log-level=debug
 
 FROM node:18-alpine AS runner
 
@@ -21,13 +22,10 @@ WORKDIR /lowdefy
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 lowdefy
 
-COPY --from=builder /lowdefy/app/.lowdefy/server/next.config.js ./
-COPY --from=builder /lowdefy/app/.lowdefy/server/package.json ./package.json
+# TODO: Change from-directory (/lowdefy/app/.lowdefy/server/public) as appropriate here
 COPY --from=builder /lowdefy/app/.lowdefy/server/public ./public
-COPY --from=builder /lowdefy/app/.lowdefy/server/build ./build
-
-COPY --from=builder --chown=lowdefy:nodejs /lowdefy/.lowdefy/server/.next/standalone ./
-COPY --from=builder --chown=lowdefy:nodejs /lowdefy/.lowdefy/server/.next/static ./.next/static
+# TODO: Change from-directory (/lowdefy/app/.lowdefy/server/.next/standalone) as appropriate here
+COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/.next/standalone ./
 
 USER lowdefy
 
