@@ -10,7 +10,9 @@ ENV LOWDEFY_BUILD_OUTPUT_STANDALONE 1
 RUN corepack enable
 
 # TODO: Change config-directory (./app) as appropriate here
-RUN pnpx lowdefy@4 build --config-directory ./app --log-level=debug
+RUN pnpx lowdefy@rc build --config-directory ./app --log-level=debug
+
+RUN pnpm --filter=@lowdefy/server --prod deploy ./deploy
 
 FROM node:18-alpine AS runner
 
@@ -23,11 +25,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 lowdefy
 
 # TODO: Change from-directory (/lowdefy/app/.lowdefy/server/public) as appropriate here
-COPY --from=builder /lowdefy/app/.lowdefy/server/public ./public
+COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/public ./public
 # TODO: Change from-directory (/lowdefy/app/.lowdefy/server/.next/standalone) as appropriate here
 COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/.next/standalone ./
 
-USER lowdefy
+COPY --from=builder --chown=lowdefy:nodejs /lowdefy/deploy/node_modules ./node_modules
 
 EXPOSE 3000
 
